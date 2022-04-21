@@ -1,0 +1,5 @@
+### Client greet
+GET http://localhost:8080/client/greet
+
+### Client upload
+GET http://localhost:8080/client/upload
