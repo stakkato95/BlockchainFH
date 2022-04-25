@@ -1,10 +1,11 @@
 package com.stakkato95.hashrest;
 
 import io.micronaut.http.HttpResponse;
+import io.micronaut.http.MediaType;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.annotation.Header;
-import io.micronaut.http.annotation.Post;
+import io.micronaut.http.annotation.Produces;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
 
@@ -16,7 +17,6 @@ import java.util.List;
 @Controller
 public class HashRestController {
 
-    //<timestamp>;<URL>;<random>;<counter>
     private static MessageDigest MD;
 
     static {
@@ -30,13 +30,14 @@ public class HashRestController {
     private List<String> hashes;
 
     @Get("/greet")
-    String greet(@Header("HashREST") String hashRest) {
+//    @Produces(value = MediaType.APPLICATION_JSON)
+    HttpResponse<String> greet(@Header("HashREST") String hashRest) {
         var isValid = validate(hashRest, 1);
 
         if (isValid) {
-            return "";// HttpResponse.ok("");
+            return HttpResponse.ok("valid cashhash");
         }
-        return "";// HttpResponse.badRequest("");
+        return HttpResponse.badRequest("invalid cashhash");
     }
 
     @Get("/upload")
@@ -44,9 +45,9 @@ public class HashRestController {
         var isValid = validate(hashRest, 3);
 
         if (isValid) {
-            return HttpResponse.ok("");
+            return HttpResponse.ok("valid cashhash");
         }
-        return HttpResponse.badRequest("");
+        return HttpResponse.badRequest("invalid cashhash");
     }
 
     @Get("/list")
@@ -64,9 +65,5 @@ public class HashRestController {
         }
 
         return true;
-    }
-
-    private static String[] parse(String hashRest) {
-        return hashRest.split(";");
     }
 }

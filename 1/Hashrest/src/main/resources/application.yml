@@ -1,6 +1,12 @@
 micronaut:
   application:
     name: hashrest
+  server:
+    read-timeout: 360
+  http:
+    client:
+      read-timeout: 360
+
 netty:
   default:
     allocator:

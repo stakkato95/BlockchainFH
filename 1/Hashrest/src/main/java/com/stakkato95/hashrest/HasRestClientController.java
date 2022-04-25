@@ -1,6 +1,5 @@
 package com.stakkato95.hashrest;
 
-import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
 import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
@@ -10,7 +9,6 @@ import io.micronaut.http.client.annotation.Client;
 import io.micronaut.http.uri.UriBuilder;
 import io.micronaut.scheduling.TaskExecutors;
 import io.micronaut.scheduling.annotation.ExecuteOn;
-import reactor.core.publisher.Mono;
 
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -44,17 +42,17 @@ public class HasRestClientController {
     }
 
     @Get("/greet")
-    Mono<HttpResponse> greet() {
+    HttpResponse<String> greet() {
         var req = HttpRequest.GET(uriGreet)
                 .header("HashREST", prepare(1));
-        return Mono.from(httpClient.retrieve(req, Argument.of(HttpResponse.class)));
+        return httpClient.toBlocking().exchange(req, String.class);
     }
 
     @Get("/upload")
-    Mono<String> upload() {
+    HttpResponse<String> upload() {
         var req = HttpRequest.GET(uriUpload)
                 .header("HashREST", prepare(3));
-        return Mono.from(httpClient.retrieve(req));
+        return httpClient.toBlocking().exchange(req, String.class);
     }
 
     private static String prepare(int difficulty) {
