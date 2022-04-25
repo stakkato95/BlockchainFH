@@ -1,6 +1,8 @@
 package com.stakkato95.hashrest;
 
+import io.micronaut.core.type.Argument;
 import io.micronaut.http.HttpRequest;
+import io.micronaut.http.HttpResponse;
 import io.micronaut.http.annotation.Controller;
 import io.micronaut.http.annotation.Get;
 import io.micronaut.http.client.HttpClient;
@@ -42,10 +44,10 @@ public class HasRestClientController {
     }
 
     @Get("/greet")
-    Mono<String> greet() {
+    Mono<HttpResponse> greet() {
         var req = HttpRequest.GET(uriGreet)
                 .header("HashREST", prepare(1));
-        return Mono.from(httpClient.retrieve(req));
+        return Mono.from(httpClient.retrieve(req, Argument.of(HttpResponse.class)));
     }
 
     @Get("/upload")

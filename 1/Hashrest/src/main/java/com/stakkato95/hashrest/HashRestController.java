@@ -30,13 +30,13 @@ public class HashRestController {
     private List<String> hashes;
 
     @Get("/greet")
-    HttpResponse<String> greet(@Header("HashREST") String hashRest) {
+    String greet(@Header("HashREST") String hashRest) {
         var isValid = validate(hashRest, 1);
 
         if (isValid) {
-            return HttpResponse.ok("");
+            return "";// HttpResponse.ok("");
         }
-        return HttpResponse.badRequest("");
+        return "";// HttpResponse.badRequest("");
     }
 
     @Get("/upload")
