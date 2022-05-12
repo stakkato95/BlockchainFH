@@ -32,8 +32,8 @@ def new_transaction():
     values = request.get_json()
     # Check that the required fields are in the POST 'ed data
     required = ['sender ', 'recipient ', 'amount']
-    if not all(k in values for k in required):
-        return 'Missing values', 400
+    # if not all(k in values for k in required):
+    #     return 'Missing values', 400
 
     # Create a new Transaction
     index = blockchain.new_transaction(values['sender'], values['recipient'], values['amount'])

@@ -7,3 +7,9 @@ Content-Type: application/json
   "recipient": "someone-other-address",
   "amount": 5
 }
+
+### Get chain
+GET http://localhost:5000/chain
+
+### Mine a block
+GET http://localhost:5000/mine
