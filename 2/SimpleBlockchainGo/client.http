@@ -1,0 +1,18 @@
+GET http://localhost:8080/chain
+
+###
+
+POST http://localhost:8080/transactions/new
+Content-Type: application/json
+
+{
+    "sender": "a",
+    "recipient": "b",
+    "amount": 100500
+}
+
+###
+
+GET http://localhost:8080/mine
+
+###
