@@ -1,9 +1,25 @@
 package response
 
-import "github.com/stakkato95/simple-blockchain-go/chain"
+import (
+	"time"
+)
+
+type Transaction struct {
+	Sender    string
+	Recipient string
+	Amount    int
+}
+
+type Block struct {
+	Index        int
+	Timestamp    time.Time
+	Transactions []Transaction
+	Proof        int
+	PreviousHash string
+}
 
 type ChainResponse struct {
-	Chain  []chain.Block
+	Chain  []Block
 	Length int
 }
 
@@ -14,7 +30,21 @@ type NewTransactionResponse struct {
 type MineResponse struct {
 	Message      string
 	Index        int
-	Transactions []chain.Transaction
+	Transactions []Transaction
 	Proof        int
 	PreviousHash string
+}
+
+type RegisterNodesRequest struct {
+	Nodes []string
+}
+
+type RegisterNodesResponse struct {
+	Message    string
+	TotalNodes []string
+}
+
+type ResolveResponse struct {
+	Message string
+	Chain   []Block
 }

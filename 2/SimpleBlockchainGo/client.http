@@ -16,3 +16,14 @@ Content-Type: application/json
 GET http://localhost:8080/mine
 
 ###
+
+POST http://localhost:8080/nodes/register
+Content-Type: application/json
+
+{
+    "nodes": ["8888"]
+}
+
+###
+
+GET http://localhost:8080/nodes/resolve

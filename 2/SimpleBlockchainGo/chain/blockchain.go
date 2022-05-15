@@ -6,43 +6,29 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
+	"net/http"
 	"time"
+
+	"github.com/stakkato95/simple-blockchain-go/response"
 )
 
-type Node struct {
-	Port string
-}
-
-type Transaction struct {
-	Sender    string
-	Recipient string
-	Amount    int
-}
-
-type Block struct {
-	Index        int
-	Timestamp    time.Time
-	Transactions []Transaction
-	Proof        int
-	PreviousHash string
-}
-
 type Blockchain struct {
-	Chain               []Block
-	CurrentTransactions []Transaction
-	Nodes               map[Node]bool
+	Chain               []response.Block
+	CurrentTransactions []response.Transaction
+	nodes               map[string]bool
 }
 
 func NewBlockchain() Blockchain {
 	b := Blockchain{}
+	b.nodes = map[string]bool{}
 	b.NewBlock(100, "1")
 	return b
 }
 
 ////////////////////////////////////////////////////////////////////////////
 
-func (b *Blockchain) NewBlock(proof int, previousHash string) Block {
-	block := Block{
+func (b *Blockchain) NewBlock(proof int, previousHash string) response.Block {
+	block := response.Block{
 		Index:        len(b.Chain) + 1,
 		Timestamp:    time.Now(),
 		Transactions: b.CurrentTransactions,
@@ -50,7 +36,7 @@ func (b *Blockchain) NewBlock(proof int, previousHash string) Block {
 		PreviousHash: b.getPreviousHash(previousHash),
 	}
 
-	b.CurrentTransactions = []Transaction{}
+	b.CurrentTransactions = []response.Transaction{}
 	b.Chain = append(b.Chain, block)
 
 	return block
@@ -63,7 +49,7 @@ func (b *Blockchain) getPreviousHash(previousHash string) string {
 	return Hash(b.Chain[len(b.Chain)-1])
 }
 
-func Hash(block Block) string {
+func Hash(block response.Block) string {
 	writer := new(bytes.Buffer)
 	if err := json.NewEncoder(writer).Encode(block); err != nil {
 		panic(err)
@@ -84,13 +70,13 @@ func hexDigest(bytes []byte) string {
 
 ////////////////////////////////////////////////////////////////////////////
 
-func (b *Blockchain) NewTransaction(transaction Transaction) int {
+func (b *Blockchain) NewTransaction(transaction response.Transaction) int {
 	b.CurrentTransactions = append(b.CurrentTransactions, transaction)
 
 	return b.LastBlock().Index + 1
 }
 
-func (b *Blockchain) LastBlock() Block {
+func (b *Blockchain) LastBlock() response.Block {
 	return b.Chain[len(b.Chain)-1]
 }
 
@@ -115,4 +101,82 @@ func (b *Blockchain) validProof(lastProof, proof int) bool {
 	guess := []byte(fmt.Sprintf("%d%d", lastProof, proof))
 	guessHash := hexDigest(guess)
 	return guessHash[:4] == "0000"
+}
+
+////////////////////////////////////////////////////////////////////////////
+
+func (b *Blockchain) RegisterNode(node string) {
+	b.nodes[node] = true
+}
+
+func (b *Blockchain) GetNodes() []string {
+	nodes := make([]string, len(b.nodes))
+
+	i := 0
+	for node := range b.nodes {
+		nodes[i] = node
+		i++
+	}
+
+	return nodes
+}
+
+func (b *Blockchain) ResolveConflicts() bool {
+	var newChain *[]response.Block
+	maxLength := len(b.Chain)
+
+	for node := range b.nodes {
+		resp, err := http.DefaultClient.Get(fmt.Sprintf("http://localhost:%s/chain", node))
+		if err != nil {
+			fmt.Printf("can not reach node %s: %s\n", node, err.Error())
+			continue
+		}
+		if resp.StatusCode != http.StatusOK {
+			fmt.Printf("can not reach node %s: response is not 200\n", node)
+			continue
+		}
+
+		chainResponse := response.ChainResponse{}
+		if err = json.NewDecoder(resp.Body).Decode(&chainResponse); err != nil {
+			panic(err.Error())
+		}
+
+		if chainResponse.Length > maxLength && b.ValidChain(chainResponse.Chain) {
+			maxLength = chainResponse.Length
+			newChain = &chainResponse.Chain
+		}
+	}
+
+	if newChain != nil {
+		b.Chain = *newChain
+		return true
+	}
+
+	return false
+}
+
+func (b *Blockchain) ValidChain(chain []response.Block) bool {
+	lastBlock := chain[0]
+	currentIndex := 1
+
+	for {
+		if currentIndex == len(chain) {
+			break
+		}
+
+		block := chain[currentIndex]
+		fmt.Printf("%#v\n%#v\n\n-----------\n\n", lastBlock, block)
+
+		if block.PreviousHash != Hash(lastBlock) {
+			return false
+		}
+		if !b.validProof(lastBlock.Proof, block.Proof) {
+			return false
+		}
+
+		lastBlock = block
+		currentIndex += 1
+	}
+
+	return true
 }
