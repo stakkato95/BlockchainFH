@@ -1,0 +1,8 @@
+tutorial
+https://www.quicknode.com/guides/solidity/how-to-create-and-deploy-an-erc20-token
+
+faucet 1
+https://ropsten.oregonctf.org/eth
+
+faucet 2
+https://faucet.metamask.io/
