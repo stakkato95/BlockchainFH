@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.4.24+commit.e67f0147"
+		"version": "0.4.26+commit.4563c3fc"
 	},
 	"language": "Solidity",
 	"output": {
@@ -8,7 +8,7 @@
 			{
 				"constant": true,
 				"inputs": [],
-				"name": "getMyVar",
+				"name": "getBalance",
 				"outputs": [
 					{
 						"name": "",
@@ -23,44 +23,28 @@
 				"constant": false,
 				"inputs": [
 					{
-						"name": "_myVar",
-						"type": "uint256"
+						"name": "_writeable",
+						"type": "bool"
 					}
 				],
-				"name": "setmyVar",
+				"name": "setWriteable",
 				"outputs": [],
 				"payable": false,
 				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"constant": true,
+				"constant": false,
 				"inputs": [],
-				"name": "myVar",
-				"outputs": [
-					{
-						"name": "",
-						"type": "uint256"
-					}
-				],
+				"name": "withdrawEverything",
+				"outputs": [],
 				"payable": false,
-				"stateMutability": "view",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
-				"inputs": [
-					{
-						"name": "_myVar",
-						"type": "uint256"
-					}
-				],
-				"payable": false,
-				"stateMutability": "nonpayable",
-				"type": "constructor"
-			},
-			{
-				"payable": false,
-				"stateMutability": "nonpayable",
+				"payable": true,
+				"stateMutability": "payable",
 				"type": "fallback"
 			}
 		],
@@ -73,7 +57,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contract.sol": "MyContract"
+			"2_smth.sol": "MyContract"
 		},
 		"evmVersion": "byzantium",
 		"libraries": {},
@@ -84,10 +68,10 @@
 		"remappings": []
 	},
 	"sources": {
-		"contract.sol": {
-			"keccak256": "0x27b6184e17783dbcffbaad725306896e2a13cb2ae031e4a412c870726e07f461",
+		"2_smth.sol": {
+			"keccak256": "0x628c6f9a787a622975eb3f2e939b2d3b040942cc34dda316607889f72af27640",
 			"urls": [
-				"bzzr://8fea2b7416118c53544de801c1dcf35f1640394562845c5bc2d10bd8cc39095c"
+				"bzzr://df0946109f405a6ebff89bebf5a3e37bb7bd1dcfa9e58f7858e47b3cb31249c6"
 			]
 		}
 	},
