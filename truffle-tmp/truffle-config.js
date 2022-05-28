@@ -23,6 +23,10 @@
 // const fs = require('fs');
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
+const PrivateKeyProvider = require("@truffle/hdwallet-provider");
+const privateKey = "ae6ae8e5ccbfb04590405997ee2d52d2b330726137b875053c36d94e974d162f";
+const privateKeyProvider = new PrivateKeyProvider(privateKey, "http://localhost:8545");
+
 module.exports = {
   /**
    * Networks define how you connect to your ethereum client and let you set the
@@ -40,10 +44,14 @@ module.exports = {
       port: 7545,            // Standard Ethereum port (default: none)
       network_id: "5777",       // Any network (default: none)
     },
-    k8s: {
+    production: {
       host: "127.0.0.1",     // Localhost (default: none)
       port: 8545,            // Standard Ethereum port (default: none)
-      network_id: "1981",       // Any network (default: none)
+      network_id: "*",       // Any network (default: none)
+      // gas: 85000000,           // Gas sent with each transaction (default: ~6700000)
+      // gasPrice: 200000000000,  // 20 gwei (in wei) (default: 100 gwei)
+      provider: privateKeyProvider,
+      // from: "0xf17f52151EbEF6C7334FAD080c5704D77216b732"// "0x419938B0CdeDA1358457Bcee328f96D04771dD9E"
     },
 
 
