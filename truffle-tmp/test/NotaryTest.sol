@@ -10,6 +10,14 @@ contract NotaryTest {
     string constant filename = "testFile";
     string constant comment = "test comment";
 
+    function testGetNonExistingEntry() public {
+        address notaryAddress = address(DeployedAddresses.Notary());
+
+        bool transactionSuccessful = notaryAddress.call(bytes4(keccak256("getEntry(bytes32)")), checksum);
+
+        Assert.isFalse(transactionSuccessful, "transaction should fail");
+    }
+
     function testAddAndRead() public {
         Notary notaryContract = Notary(DeployedAddresses.Notary());
         notaryContract.addEntry(checksum, filename, comment);
@@ -19,8 +27,17 @@ contract NotaryTest {
         string memory actualComment;
         address actualSender;
         (actualFilename, timestamp, actualComment, actualSender) = notaryContract.getEntry(checksum);
+
         Assert.equal(actualFilename, filename, "wrong filename");
         Assert.equal(actualComment, comment, "wrong comment");
         Assert.equal(actualSender, address(this), "wrong sender");
+    }
+    
+    function testGeExistingEntry() public {
+        address notaryAddress = address(DeployedAddresses.Notary());
+
+        bool transactionSuccessful = notaryAddress.call(bytes4(keccak256("getEntry(bytes32)")), checksum);
+        
+        Assert.isTrue(transactionSuccessful, "transaction should succeed");
     }
 }

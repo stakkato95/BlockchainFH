@@ -32,7 +32,7 @@ contract("Notary", function (accounts) {
         let instance = await NotaryArtifact.deployed();
         await instance.addEntry(hash, filename, comment);
         let entry = await instance.getEntry(hash);
-        console.log(entry);
+        // console.log(entry);
 
         assert.equal(entry[0], filename, `Filename should be ${filename}`);
         assert.equal(entry[1].toNumber() >= 1, true, "Timestamp should be bigger than 1");
