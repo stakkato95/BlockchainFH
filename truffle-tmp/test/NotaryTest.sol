@@ -4,6 +4,8 @@ import "truffle/Assert.sol";
 import "truffle/DeployedAddresses.sol";
 import "../contracts/Notary.sol";
 
+//writing tests in solidity
+//https://trufflesuite.com/docs/truffle/testing/writing-tests-in-solidity/
 contract NotaryTest {
 
     bytes32 constant checksum = 0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08;
