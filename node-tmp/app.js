@@ -30,12 +30,19 @@ const addEntryAbi = notaryInstace._jsonInterface.find((e) => {
     return e.name === "addEntry";
 });
 
-app.get('/chain/entry/:hash', (req, res) => {
+app.get('/chain/entry/:hash', async (req, res) => {
     const hash = req.params['hash']
-    res.send(`Hello World! ${hash}`)
+
+    var result = await notaryInstace.methods.getEntry(hash).call({ from: fromAccountPublicKey });
+
+    const response = {
+        filename: result['0'],
+        timestamp: result['1'],
+        comment: result['2'],
+        hash: result['3']
+    }
+    res.send(response)
 })
-
-
 
 app.post('/chain/entry', async (req, res) => {
     const hash = req.body['hash']
@@ -60,7 +67,7 @@ async function addEntry(hashVal, filename, comment) {
     const addEntryFunctionArgs = web3.eth.abi
         .encodeParameters(addEntryAbi.inputs, [hashVal, filename, comment])
         .slice(2);
-    
+
     var rawTx = {
         nonce: web3.utils.numberToHex(publicNonce),
         from: fromAccountPublicKey,
