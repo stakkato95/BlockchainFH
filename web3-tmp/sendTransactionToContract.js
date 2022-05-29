@@ -104,12 +104,12 @@ let communicateWithContract = async () => {
 
     var deployedContractAddress = "0xB8D75b20396A47B632B0675524C00091F445F7d0";
     var notaryInstace = new web3.eth.Contract(ABI, deployedContractAddress);
-    
+
     // creating call for addEntry() function
     const addEntryAbi = notaryInstace._jsonInterface.find((e) => {
         return e.name === "addEntry";
     });
-    const hashVal = "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a11";
+    const hashVal = "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a16";
     const addEntryFunctionArgs = web3.eth.abi
         .encodeParameters(addEntryAbi.inputs, [hashVal, "testFile123456789", "test comment 123456789"])
         .slice(2);
@@ -140,45 +140,15 @@ let communicateWithContract = async () => {
     console.log(result);
     console.log();
 
-    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    // // creating call for addEntry() function
-    // const getEntryAbi = notaryInstace._jsonInterface.find((e) => {
-    //     return e.name === "getEntry";
-    // });
-    // const getEntryFunctionArgs = web3.eth.abi
-    //     .encodeParameters(addEntryAbi.inputs, [hashVal])
-    //     .slice(2);
-
-    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // var publicNonce = await web3.eth.getTransactionCount(fromAccountPublicKey, "pending");
-    // console.log(`nonce: ${publicNonce}\n`);
-
-    // var rawTx = {
-    //     nonce: web3.utils.numberToHex(publicNonce),
-    //     from: fromAccountPublicKey,
-    //     value: 0,
-    //     to: deployedContractAddress,
-    //     data: `${getEntryAbi.signature + getEntryFunctionArgs}`,
-    //     gasPrice: "0xFFFFFF",
-    //     gasLimit: "0xFFFFF",
-    // };
-    // var tx = new Tx(rawTx, { common: customCommon });
-
-    // ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-    // var privateKey = Buffer.from(fromAccountPrivateKey, "hex");
-    // tx.sign(privateKey);
-    // var serializedTx = tx.serialize();
-
-    // var signedTx = `0x${serializedTx.toString("hex")}`;
-    // console.log(`signed tx: ${signedTx}\n`);
-
-    // var result = await web3.eth.sendSignedTransaction(signedTx);
-    // console.log(result);
-    // console.log();
+    // would be an alternative
+    // https://besu.hyperledger.org/en/stable/HowTo/Interact/Client-Libraries/web3js-quorum/
+    // https://consensys.github.io/web3js-quorum/latest/module-priv.html#~generateAndSendRawTransaction
+    // https://github.com/ConsenSys/web3js-quorum/blob/01e5af984ac7a217a49f79376981483fc2fe5f13/example/accessPublicState/storeValueFromNode1.js
+    var getResult = await notaryInstace.methods.getEntry(hashVal).call({ from: fromAccountPublicKey });
+    console.log(getResult);
 };
 
 communicateWithContract();
