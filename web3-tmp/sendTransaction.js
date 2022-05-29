@@ -1,7 +1,7 @@
 // code examples
 // https://github.com/ethereumjs/ethereumjs-tx/blob/master/examples/custom-chain-tx.ts
 // https://github.com/ConsenSys/web3js-quorum/blob/01e5af984ac7a217a49f79376981483fc2fe5f13/example/accessPublicState/deployContract.js
-// https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#sendsignedtransaction
+// without signing a transaction: https://web3js.readthedocs.io/en/v1.2.11/web3-eth.html#sendsignedtransaction
 
 // use private network
 // https://github.com/ethereumjs/ethereumjs-tx/blob/master/docs/interfaces/transactionoptions.md
