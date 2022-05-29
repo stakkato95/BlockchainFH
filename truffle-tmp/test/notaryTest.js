@@ -7,12 +7,12 @@ const comment = "test comment";
 contract("Notary", function (accounts) {
     console.log(accounts);
 
-    it('This is my TestCase', function () {
-        return NotaryArtifact.deployed().then(function (instance) {
-            // //here we can access deployed cotract instacne
-            // console.log(instance);
-        });
-    })
+    // it('This is my TestCase', function () {
+    //     return NotaryArtifact.deployed().then(function (instance) {
+    //         // //here we can access deployed cotract instacne
+    //         // console.log(instance);
+    //     });
+    // })
 
     it('should not have an entry for an unknown hash', async function () {
         return NotaryArtifact.deployed().then(async function (instance) {
@@ -28,7 +28,7 @@ contract("Notary", function (accounts) {
         });
     });
 
-    it('should not have an entry for an unknown hash', async function() {
+    it('should have an entry for a known hash', async function() {
         let instance = await NotaryArtifact.deployed();
         await instance.addEntry(hash, filename, comment);
         let entry = await instance.getEntry(hash);

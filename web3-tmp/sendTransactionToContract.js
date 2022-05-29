@@ -102,7 +102,7 @@ let communicateWithContract = async () => {
 
     ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    var deployedContractAddress = "0xB8D75b20396A47B632B0675524C00091F445F7d0";
+    var deployedContractAddress = "0xf90E97357b8dF646389519112F2fdeE1f8A09bd0";
     var notaryInstace = new web3.eth.Contract(ABI, deployedContractAddress);
 
     // creating call for addEntry() function
@@ -149,6 +149,7 @@ let communicateWithContract = async () => {
     // https://github.com/ConsenSys/web3js-quorum/blob/01e5af984ac7a217a49f79376981483fc2fe5f13/example/accessPublicState/storeValueFromNode1.js
     var getResult = await notaryInstace.methods.getEntry(hashVal).call({ from: fromAccountPublicKey });
     console.log(getResult);
+    console.log();
 };
 
 communicateWithContract();
