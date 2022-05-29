@@ -1,0 +1,112 @@
+<!doctype html>
+
+<html>
+
+<head>
+    <script src="node_modules/web3/dist/web3.min.js" type="text/javascript"></script>
+</head>
+
+<body>
+    <div>Some content</div>
+
+    <script>
+        const fun = async () => {
+            var web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:7545"));
+            
+            var ABI = [
+                {
+                    "constant": false,
+                    "inputs": [
+                        {
+                            "name": "_checksum",
+                            "type": "bytes32"
+                        },
+                        {
+                            "name": "_filename",
+                            "type": "string"
+                        },
+                        {
+                            "name": "_comments",
+                            "type": "string"
+                        }
+                    ],
+                    "name": "addEntry",
+                    "outputs": [],
+                    "payable": false,
+                    "stateMutability": "nonpayable",
+                    "type": "function"
+                },
+                {
+                    "constant": true,
+                    "inputs": [
+                        {
+                            "name": "_checksum",
+                            "type": "bytes32"
+                        }
+                    ],
+                    "name": "getEntry",
+                    "outputs": [
+                        {
+                            "name": "",
+                            "type": "string"
+                        },
+                        {
+                            "name": "",
+                            "type": "uint256"
+                        },
+                        {
+                            "name": "",
+                            "type": "string"
+                        },
+                        {
+                            "name": "",
+                            "type": "address"
+                        }
+                    ],
+                    "payable": false,
+                    "stateMutability": "view",
+                    "type": "function"
+                },
+                {
+                    "anonymous": false,
+                    "inputs": [
+                        {
+                            "indexed": false,
+                            "name": "_checksum",
+                            "type": "bytes32"
+                        },
+                        {
+                            "indexed": false,
+                            "name": "_filename",
+                            "type": "string"
+                        },
+                        {
+                            "indexed": true,
+                            "name": "_setBy",
+                            "type": "address"
+                        }
+                    ],
+                    "name": "NewEntry",
+                    "type": "event"
+                }
+            ];
+            
+            var accountAddress = "0xaE890bD0FbC3b456D0dcCDaC6b71083Fc8c8A95F";
+            var deployedContractAddress = "0x56E138284e887De16E9FeeD4F03c8602cD6F0FFD";
+            var notaryInstace = new web3.eth.Contract(ABI, deployedContractAddress);
+
+            var hashVal = "0x9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a04";
+            var addResult = await notaryInstace.methods.addEntry(hashVal, "testFile4", "test comment 4")
+                .send({ from: accountAddress, gas: 3000000 });
+            console.log(addResult);
+
+            var getResult = await notaryInstace.methods.getEntry(hashVal)
+                .call({ from: accountAddress });
+
+            console.log(getResult)
+        };
+        fun();
+    </script>
+</body>
+
+</html>
