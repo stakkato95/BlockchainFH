@@ -23,7 +23,7 @@ const ABI = require("./abi.json")
 
 const fromAccountPublicKey = "0xfe3b557e8fb62b89f4916b721be55ceb828dbd73"
 const fromAccountPrivateKey = "8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63"
-const deployedContractAddress = "0xf90E97357b8dF646389519112F2fdeE1f8A09bd0"
+const deployedContractAddress = "0x9a3DBCa554e9f6b9257aAa24010DA8377C57c17e"
 var notaryInstace = new web3.eth.Contract(ABI, deployedContractAddress)
 
 const addEntryAbi = notaryInstace._jsonInterface.find((e) => {

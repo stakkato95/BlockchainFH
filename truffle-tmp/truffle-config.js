@@ -24,7 +24,7 @@
 // const mnemonic = fs.readFileSync(".secret").toString().trim();
 
 const PrivateKeyProvider = require("@truffle/hdwallet-provider");
-const privateKey = "ae6ae8e5ccbfb04590405997ee2d52d2b330726137b875053c36d94e974d162f";
+const privateKey = "8f2a55949038a9610f50fb23b5883af3b4ecb3c3bb792cbcefbd1542c692be63";
 const privateKeyProvider = new PrivateKeyProvider(privateKey, "http://localhost:8545");
 
 module.exports = {
