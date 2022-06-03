@@ -1,0 +1,77 @@
+[
+    {
+        "constant": false,
+        "inputs": [
+            {
+                "name": "_checksum",
+                "type": "bytes32"
+            },
+            {
+                "name": "_filename",
+                "type": "string"
+            },
+            {
+                "name": "_comments",
+                "type": "string"
+            }
+        ],
+        "name": "addEntry",
+        "outputs": [],
+        "payable": false,
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "constant": true,
+        "inputs": [
+            {
+                "name": "_checksum",
+                "type": "bytes32"
+            }
+        ],
+        "name": "getEntry",
+        "outputs": [
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "uint256"
+            },
+            {
+                "name": "",
+                "type": "string"
+            },
+            {
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "payable": false,
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "anonymous": false,
+        "inputs": [
+            {
+                "indexed": false,
+                "name": "_checksum",
+                "type": "bytes32"
+            },
+            {
+                "indexed": false,
+                "name": "_filename",
+                "type": "string"
+            },
+            {
+                "indexed": true,
+                "name": "_setBy",
+                "type": "address"
+            }
+        ],
+        "name": "NewEntry",
+        "type": "event"
+    }
+]
